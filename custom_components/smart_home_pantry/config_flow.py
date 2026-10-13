@@ -10,6 +10,8 @@ from .const import (
     CONF_DAYS_BEFORE,
     CONF_NOTIFY_TIME,
     CONF_NOTIFY_SERVICES,
+    CONF_NOTIFY_SERVICE_LANGUAGES,
+    CONF_NOTIFICATION_LANGUAGE,
     CONF_PERSISTENT_ENABLED,
     CONF_PUSH_ENABLED,
     CONF_DATE_FORMAT,
@@ -22,6 +24,8 @@ from .const import (
     DEFAULT_DAYS_BEFORE,
     DEFAULT_NOTIFY_TIME,
     DEFAULT_NOTIFY_SERVICES,
+    DEFAULT_NOTIFY_SERVICE_LANGUAGES,
+    DEFAULT_NOTIFICATION_LANGUAGE,
     DEFAULT_PERSISTENT_ENABLED,
     DEFAULT_PUSH_ENABLED,
     DEFAULT_DATE_FORMAT,
@@ -34,6 +38,7 @@ from .const import (
     DEFAULT_SORT_ORDER,
     DATE_FORMATS,
     SORT_ORDERS,
+    NOTIFICATION_LANGUAGES,
 )
 
 
@@ -99,6 +104,25 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
             vol.Optional(
                 CONF_NOTIFY_SERVICES,
                 default=options.get(CONF_NOTIFY_SERVICES, DEFAULT_NOTIFY_SERVICES),
+            ): str,
+            vol.Optional(
+                CONF_NOTIFICATION_LANGUAGE,
+                default=options.get(
+                    CONF_NOTIFICATION_LANGUAGE, DEFAULT_NOTIFICATION_LANGUAGE
+                ),
+            ): selector.SelectSelector(
+                selector.SelectSelectorConfig(
+                    options=NOTIFICATION_LANGUAGES,
+                    mode="dropdown",
+                    translation_key="notification_language",
+                )
+            ),
+            vol.Optional(
+                CONF_NOTIFY_SERVICE_LANGUAGES,
+                default=options.get(
+                    CONF_NOTIFY_SERVICE_LANGUAGES,
+                    DEFAULT_NOTIFY_SERVICE_LANGUAGES,
+                ),
             ): str,
             vol.Optional(
                 CONF_NOTIFY_TIME,

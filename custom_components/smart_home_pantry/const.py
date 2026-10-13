@@ -18,6 +18,8 @@ PANEL_ICON = "mdi:fridge"
 CONF_DAYS_BEFORE = "days_before"
 CONF_NOTIFY_TIME = "notify_time"
 CONF_NOTIFY_SERVICES = "notify_services"
+CONF_NOTIFY_SERVICE_LANGUAGES = "notify_service_languages"
+CONF_NOTIFICATION_LANGUAGE = "notification_language"
 CONF_PERSISTENT_ENABLED = "persistent_enabled"
 CONF_PUSH_ENABLED = "push_enabled"
 
@@ -32,6 +34,8 @@ CONF_SORT_ORDER = "sort_order"
 DEFAULT_DAYS_BEFORE = 7
 DEFAULT_NOTIFY_TIME = "09:00:00"
 DEFAULT_NOTIFY_SERVICES = ""
+DEFAULT_NOTIFY_SERVICE_LANGUAGES = ""
+DEFAULT_NOTIFICATION_LANGUAGE = "auto"
 DEFAULT_PERSISTENT_ENABLED = True
 DEFAULT_PUSH_ENABLED = True
 
@@ -44,6 +48,8 @@ DEFAULT_EXPIRED_WITHIN = 30
 DEFAULT_SORT_ORDER = "expiry"
 
 DATE_FORMATS = ["dd/mm/yyyy", "yyyy-mm-dd", "mm/dd/yyyy", "relative"]
+
+NOTIFICATION_LANGUAGES = ["auto", "en", "it", "nl"]
 
 
 SORT_ORDERS = [

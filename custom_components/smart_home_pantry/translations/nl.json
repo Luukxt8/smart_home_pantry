@@ -8,6 +8,8 @@
           "persistent_enabled": "Blijvende melding in Home Assistant",
           "push_enabled": "Pushmelding naar de Companion-app",
           "notify_services": "Meldingsservices (bijv. mobile_app_telefoon, gescheiden door komma's)",
+          "notification_language": "Standaardtaal voor meldingen",
+          "notify_service_languages": "Taal per meldingsservice (bijv. mobile_app_telefoon=nl, mobile_app_tablet=en)",
           "notify_time": "Tijdstip van de dagelijkse houdbaarheidscontrole",
           "days_before": "Waarschuwingsdagen: vanaf dit moment verloopt het product binnenkort (oranje)",
           "days_critical": "Kritieke dagen: vanaf dit moment is het product dringend (rood)",
@@ -33,6 +35,14 @@
         "alphabetical": "Alfabetisch (A-Z)",
         "quantity_asc": "Bijna op eerst (minste stuks)",
         "quantity_desc": "Meeste stuks eerst"
+      }
+    },
+    "notification_language": {
+      "options": {
+        "auto": "Gebruik de Home Assistant-taal",
+        "en": "Engels",
+        "it": "Italiaans",
+        "nl": "Nederlands"
       }
     }
   }
