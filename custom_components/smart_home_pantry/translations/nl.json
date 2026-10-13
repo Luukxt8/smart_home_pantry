@@ -1,0 +1,39 @@
+{
+  "title": "Smart Home Pantry",
+  "options": {
+    "step": {
+      "init": {
+        "title": "Instellingen van Smart Home Pantry",
+        "data": {
+          "persistent_enabled": "Blijvende melding in Home Assistant",
+          "push_enabled": "Pushmelding naar de Companion-app",
+          "notify_services": "Meldingsservices (bijv. mobile_app_telefoon, gescheiden door komma's)",
+          "notify_time": "Tijdstip van de dagelijkse houdbaarheidscontrole",
+          "days_before": "Waarschuwingsdagen: vanaf dit moment verloopt het product binnenkort (oranje)",
+          "days_critical": "Kritieke dagen: vanaf dit moment is het product dringend (rood)",
+          "date_format": "Datumnotatie",
+          "next_expiry_within": "Toon 'Volgende vervaldatum' alleen als die binnen dit aantal dagen valt",
+          "expired_within": "Toon verlopen producten in het overzicht tot dit aantal dagen na de vervaldatum",
+          "sort_order": "Sortering van de productlijst",
+          "sidebar_enabled": "Toon de voorraadkast in de zijbalk van Home Assistant",
+          "sidebar_title": "Naam van het item in de zijbalk"
+        }
+      }
+    },
+    "error": {
+      "invalid_time": "Ongeldige tijd. Gebruik de notatie UU:MM (bijv. 09:00)",
+      "critical_above_warning": "Het aantal kritieke dagen kan niet groter zijn dan het aantal waarschuwingsdagen"
+    }
+  },
+  "selector": {
+    "sort_order": {
+      "options": {
+        "expiry": "Eerst de eerstvolgende vervaldatum (verlopen producten bovenaan)",
+        "expiry_valid": "Producten die binnenkort verlopen eerst, verlopen producten onderaan",
+        "alphabetical": "Alfabetisch (A-Z)",
+        "quantity_asc": "Bijna op eerst (minste stuks)",
+        "quantity_desc": "Meeste stuks eerst"
+      }
+    }
+  }
+}
