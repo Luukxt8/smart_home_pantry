@@ -8,6 +8,8 @@
           "persistent_enabled": "Notifica persistente in Home Assistant",
           "push_enabled": "Notifica push su app Companion",
           "notify_services": "Servizi notify (es. mobile_app_telefono, separati da virgola)",
+          "notification_language": "Lingua predefinita delle notifiche",
+          "notify_service_languages": "Lingua per servizio notify (es. mobile_app_telefono=it, mobile_app_tablet=en)",
           "notify_time": "Orario del controllo giornaliero delle scadenze",
           "days_before": "Giorni di preavviso: da qui il prodotto e' 'in scadenza' (arancione)",
           "days_critical": "Giorni critici: da qui il prodotto diventa urgente (rosso)",
@@ -33,6 +35,14 @@
         "alphabetical": "Ordine alfabetico (A-Z)",
         "quantity_asc": "In esaurimento prima (meno pezzi)",
         "quantity_desc": "Piu' numerosi prima"
+      }
+    },
+    "notification_language": {
+      "options": {
+        "auto": "Usa la lingua di Home Assistant",
+        "en": "Inglese",
+        "it": "Italiano",
+        "nl": "Olandese"
       }
     }
   }

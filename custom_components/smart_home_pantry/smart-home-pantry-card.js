@@ -17,6 +17,7 @@ const SHP_I18N = {
     expires_in: "Scade tra {n} giorni",
     expires_on: "Scade il ",
     expired_since: "Scaduto da {n} giorni",
+    expired_since_one: "Scaduto da 1 giorno",
     empty: "\ud83e\uded9 La dispensa e' vuota.<br>Tocca <b>Aggiungi</b> per scansionare un prodotto.",
     empty_short: "La dispensa e' vuota, niente da rimuovere.",
     expired_one: "1 prodotto scaduto",
@@ -100,6 +101,7 @@ const SHP_I18N = {
     expires_in: "Expires in {n} days",
     expires_on: "Expires on ",
     expired_since: "Expired {n} days ago",
+    expired_since_one: "Expired 1 day ago",
     empty: "\ud83e\uded9 The pantry is empty.<br>Tap <b>Add</b> to scan a product.",
     empty_short: "The pantry is empty, nothing to remove.",
     expired_one: "1 expired product",
@@ -166,6 +168,90 @@ const SHP_I18N = {
     loc_fridge: "Fridge",
     loc_freezer: "Freezer",
     support: "\u2615 Support the project"
+  },
+  nl: {
+    title: "\ud83d\udce6 Smart Home Pantry",
+    stat_total: "Totaal",
+    stat_expiring: "Bijna over datum",
+    stat_expired: "Over de datum",
+    next_expiry: "\u23f3 Eerstvolgende houdbaarheidsdatum: ",
+    today_paren: " (vandaag)",
+    in_days_paren: " (over {n} dagen)",
+    no_name: "Naamloos",
+    no_expiry: "Geen houdbaarheidsdatum",
+    none_f: "Geen",
+    days: "dagen",
+    expires_today: "Verloopt vandaag!",
+    expires_in: "Verloopt over {n} dagen",
+    expires_on: "Houdbaar tot ",
+    expired_since: "{n} dagen over datum",
+    expired_since_one: "1 dag over datum",
+    empty: "\ud83e\uded9 De voorraadkast is leeg.<br>Tik op <b>Toevoegen</b> om een product te scannen.",
+    empty_short: "De voorraadkast is leeg; er is niets om te verwijderen.",
+    expired_one: "1 product over de datum",
+    expired_many: "{n} producten over de datum",
+    btn_add: "\ud83d\udcf7 Toevoegen",
+    btn_take: "\ud83d\udce4 Pakken",
+    btn_remove: "\u2796 Verwijderen",
+    btn_refresh: "\ud83d\udd04 Vernieuwen",
+    btn_clear: "\ud83d\uddd1\ufe0f Leegmaken",
+    modal_add: "\ud83d\udcf7 Product toevoegen",
+    modal_edit: "\u270f\ufe0f Partij bewerken",
+    modal_remove: "\u2796 Handmatig verwijderen",
+    lbl_barcode: "Barcode",
+    lbl_name: "Productnaam",
+    lbl_quantity: "Hoeveelheid",
+    lbl_expiry: "Houdbaarheidsdatum",
+    cancel: "Annuleren",
+    save: "Opslaan",
+    remove: "Verwijderen",
+    fefo_note: "Producten worden gepakt uit de partij met de vroegste houdbaarheidsdatum (FEFO).",
+    remove_lot_hint: "(0 = partij verwijderen)",
+    available: "Beschikbaar: ",
+    first_expiry: " \u00b7 eerstvolgende datum: ",
+    no_barcode_item: "Dit product heeft geen barcode en kan hier niet worden verwijderd.",
+    searching: "\ud83d\udd0e Product opzoeken...",
+    ask_name: "Voer een naam in voor het product.",
+    ask_qty_remove: "Hoeveel stuks wil je verwijderen?",
+    detected: "Product gevonden: ",
+    removed_n: "{n} stuks verwijderd",
+    added_n: "{n} stuks toegevoegd",
+    confirm_clear: "Typ LEEGMAKEN om te bevestigen",
+    confirm_clear_word: "LEEGMAKEN",
+    confirm_remove_lot: "Deze volledige partij verwijderen: ",
+    confirm_remove_item: "{n} stuks van {name} uit de voorraadkast verwijderen?",
+    pantry_cleared: "Voorraadkast leeggemaakt",
+    pantry_updated: "Voorraadkast bijgewerkt",
+    lot_updated: "Partij bijgewerkt",
+    expired_cleared: "Producten over de datum verwijderd",
+    err_update: "Fout bij het vernieuwen",
+    err_clear: "Fout bij het leegmaken",
+    err_add: "Fout bij het toevoegen",
+    err_edit: "Fout bij het bewerken",
+    err_remove: "Fout bij het verwijderen",
+    err_remove_expired: "Fout bij het verwijderen van producten over de datum.",
+    err_download: "Het bestand kon niet worden gedownload.",
+    scan_insecure: "De camera is niet beschikbaar omdat je een onveilige verbinding (http) gebruikt.\n\nOp iPhone en in Safari werkt de camera alleen via HTTPS.\n\nVoer de barcode handmatig in:",
+    scan_denied: "Geen toestemming voor de camera.\n\nGeef de browser of app toegang tot de camera in de instellingen, of voer de barcode handmatig in:",
+    scan_nolib: "De scanner kon niet worden geladen (bibliotheek niet bereikbaar).\n\nVoer de barcode handmatig in:",
+    scan_generic: "Scanner niet beschikbaar.\n\nVoer de barcode handmatig in:",
+    btn_add_plain: "Toevoegen",
+    refreshing: "\u23f3 Vernieuwen...",
+    confirm_remove_expired: "{items} uit de voorraadkast verwijderen?\n\nDit kan niet ongedaan worden gemaakt. Download eerst de lijst naar Excel als je die wilt bewaren.",
+    btn_manual: "\u270f\ufe0f Handmatig toevoegen",
+    modal_manual: "\u270f\ufe0f Handmatig toevoegen",
+    name_placeholder: "Bijv. halfvolle melk",
+    not_found_hint: " (niet gevonden, voer de naam zelf in)",
+    today: "Vandaag",
+    tomorrow: "Morgen",
+    tomorrow_paren: " (morgen)",
+    entity_not_found: "Entiteit niet gevonden",
+    lbl_location: "Locatie",
+    loc_none: "Geen",
+    loc_pantry: "Voorraadkast",
+    loc_fridge: "Koelkast",
+    loc_freezer: "Vriezer",
+    support: "\u2615 Steun het project"
   }
 };
 
@@ -216,7 +302,9 @@ class SmartHomePantryCard extends HTMLElement {
     if(fmt === "mm/dd/yyyy") return m + "/" + d + "/" + y;
     if(fmt === "relative"){
       if(days === null || days === undefined) return d + "/" + m + "/" + y;
-      if(days < 0) return this._t("expired_since",{n:Math.abs(days)});
+      if(days < 0) return Math.abs(days) === 1
+        ? this._t("expired_since_one")
+        : this._t("expired_since",{n:Math.abs(days)});
       if(days === 0) return this._t("today");
       if(days === 1) return this._t("tomorrow");
       return this._t("expires_in",{n:days});
@@ -428,7 +516,7 @@ class SmartHomePantryCard extends HTMLElement {
       g._next = first;
       g._nextDays = daysTo(first);
     });
-    const byName = (a,b)=>String(a.name||"").localeCompare(String(b.name||""), "it", {sensitivity:"base"});
+    const byName = (a,b)=>String(a.name||"").localeCompare(String(b.name||""), this._lang(), {sensitivity:"base"});
     const byExpiry = (a,b)=>{
 
       const cmp = (a._next || FAR).localeCompare(b._next || FAR);
@@ -471,7 +559,9 @@ class SmartHomePantryCard extends HTMLElement {
         if(dd!==null){
           if(dd<0){
             barColor=RED; subColor=RED;
-            sub=this._t("expired_since",{n:Math.abs(dd)});
+            sub=Math.abs(dd) === 1
+              ? this._t("expired_since_one")
+              : this._t("expired_since",{n:Math.abs(dd)});
           } else if(dd===0){
             barColor=RED; subColor=RED;
             sub=this._t("expires_today");

@@ -8,6 +8,8 @@
           "persistent_enabled": "Persistent notification in Home Assistant",
           "push_enabled": "Push notification to Companion app",
           "notify_services": "Notify services (e.g. mobile_app_phone, comma separated)",
+          "notification_language": "Default notification language",
+          "notify_service_languages": "Language per notify service (e.g. mobile_app_phone=nl, mobile_app_tablet=en)",
           "notify_time": "Daily expiry check time",
           "days_before": "Warning days: product is 'expiring' from here (orange)",
           "days_critical": "Critical days: product becomes urgent from here (red)",
@@ -33,6 +35,14 @@
         "alphabetical": "Alphabetical (A-Z)",
         "quantity_asc": "Running low first (fewest items)",
         "quantity_desc": "Most items first"
+      }
+    },
+    "notification_language": {
+      "options": {
+        "auto": "Use Home Assistant language",
+        "en": "English",
+        "it": "Italian",
+        "nl": "Dutch"
       }
     }
   }

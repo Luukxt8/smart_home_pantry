@@ -94,6 +94,13 @@ Sends a push notification to the Companion app.
 Which notify services to use for the push, comma separated.
 Example: `mobile_app_my_phone, mobile_app_tablet`
 
+### 🌐 Notification language (notification_language)
+`Auto` uses the Home Assistant language for the shared persistent notification and as the default for push notifications. English, Italian, and Dutch are supported.
+
+### 📱 Language per notify service (notify_service_languages)
+Optional per-device language overrides, useful when recipients use different languages. Enter comma-separated `service=language` pairs.
+Example: `mobile_app_my_phone=nl, mobile_app_tablet=en`
+
 ### ⏰ Daily check time (notify_time)
 The time of day when the integration checks expiry dates and sends notifications.
 One check per day, so you don't get spammed.
@@ -457,6 +464,13 @@ Invia una notifica push sull'app Companion.
 ### 📲 Servizi notify (notify_services)
 Quali servizi notify usare per il push, separati da virgola.
 Esempio: `mobile_app_mio_telefono, mobile_app_tablet`
+
+### 🌐 Lingua delle notifiche (notification_language)
+`Auto` usa la lingua configurata in Home Assistant per la notifica persistente condivisa e come lingua predefinita per le notifiche push. Sono supportati inglese, italiano e olandese.
+
+### 📱 Lingua per servizio notify (notify_service_languages)
+Override facoltativi per i dispositivi che usano lingue diverse. Inserisci coppie `servizio=lingua` separate da virgole.
+Esempio: `mobile_app_mio_telefono=it, mobile_app_tablet=en`
 
 ### ⏰ Orario del controllo giornaliero (notify_time)
 L'ora in cui l'integrazione controlla le scadenze e manda le notifiche.

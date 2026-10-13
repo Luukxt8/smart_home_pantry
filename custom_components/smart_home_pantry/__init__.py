@@ -18,6 +18,8 @@ from .const import (
     CONF_DAYS_BEFORE,
     CONF_NOTIFY_TIME,
     CONF_NOTIFY_SERVICES,
+    CONF_NOTIFY_SERVICE_LANGUAGES,
+    CONF_NOTIFICATION_LANGUAGE,
     CONF_PERSISTENT_ENABLED,
     CONF_PUSH_ENABLED,
     CONF_DATE_FORMAT,
@@ -30,6 +32,8 @@ from .const import (
     DEFAULT_DAYS_BEFORE,
     DEFAULT_NOTIFY_TIME,
     DEFAULT_NOTIFY_SERVICES,
+    DEFAULT_NOTIFY_SERVICE_LANGUAGES,
+    DEFAULT_NOTIFICATION_LANGUAGE,
     DEFAULT_PERSISTENT_ENABLED,
     DEFAULT_PUSH_ENABLED,
     DEFAULT_DATE_FORMAT,
@@ -45,6 +49,69 @@ from .const import (
 from .api import lookup_openfoodfacts
 
 _LOGGER = logging.getLogger(__name__)
+
+_NOTIFICATION_TEXTS = {
+    "en": {
+        "title": "Products expiring - Smart Home Pantry",
+        "push_title": "Products expiring",
+        "expired": "Expired:",
+        "expiring": "Expiring:",
+        "expired_one": "expired 1 day ago",
+        "expired_many": "expired {days} days ago",
+        "today": "expires today",
+        "expiring_one": "expires in 1 day",
+        "expiring_many": "expires in {days} days",
+        "no_date": "no expiry date",
+        "unnamed": "Unnamed product",
+        "product": "- {name} (x{quantity}) - {when}",
+        "more": "... and {count} more",
+    },
+    "it": {
+        "title": "Prodotti in scadenza - Smart Home Pantry",
+        "push_title": "Prodotti in scadenza",
+        "expired": "Scaduti:",
+        "expiring": "In scadenza:",
+        "expired_one": "scaduto da 1 giorno",
+        "expired_many": "scaduto da {days} giorni",
+        "today": "scade oggi",
+        "expiring_one": "scade tra 1 giorno",
+        "expiring_many": "scade tra {days} giorni",
+        "no_date": "senza data",
+        "unnamed": "Prodotto senza nome",
+        "product": "- {name} (x{quantity}) - {when}",
+        "more": "... e altri {count}",
+    },
+    "nl": {
+        "title": "Producten die bijna over datum zijn - Smart Home Pantry",
+        "push_title": "Producten die bijna over datum zijn",
+        "expired": "Over de datum:",
+        "expiring": "Bijna over datum:",
+        "expired_one": "1 dag over datum",
+        "expired_many": "{days} dagen over datum",
+        "today": "vandaag verloopt",
+        "expiring_one": "verloopt over 1 dag",
+        "expiring_many": "verloopt over {days} dagen",
+        "no_date": "geen houdbaarheidsdatum",
+        "unnamed": "Naamloos product",
+        "product": "- {name} (x{quantity}) - {when}",
+        "more": "... en {count} andere",
+    },
+}
+
+
+def _notification_language(value):
+    language = str(value or "en").lower().replace("_", "-").split("-")[0]
+    return language if language in _NOTIFICATION_TEXTS else "en"
+
+
+def _service_language_overrides(value):
+    overrides = {}
+    for item in str(value or "").split(","):
+        service, separator, language = item.strip().partition("=")
+        service = service.strip()
+        if separator and service:
+            overrides[service] = _notification_language(language.strip())
+    return overrides
 
 PLATFORMS = ["sensor"]
 
@@ -192,11 +259,30 @@ async def async_setup_entry(hass, entry):
             data["next_expiry"] = ""
             data["next_expiry_date"] = None
 
-    def _format_products(prods):
+    def _texts_for_notification(service_name=None):
+        options = entry.options
+        configured_language = options.get(
+            CONF_NOTIFICATION_LANGUAGE, DEFAULT_NOTIFICATION_LANGUAGE
+        )
+        service_languages = _service_language_overrides(
+            options.get(
+                CONF_NOTIFY_SERVICE_LANGUAGES,
+                DEFAULT_NOTIFY_SERVICE_LANGUAGES,
+            )
+        )
+        if service_name and service_name in service_languages:
+            language = service_languages[service_name]
+        elif configured_language == "auto":
+            language = getattr(hass.config, "language", "en")
+        else:
+            language = configured_language
+        return _NOTIFICATION_TEXTS[_notification_language(language)]
+
+    def _format_products(prods, texts):
         lines = []
         today = date.today()
         for p in sorted(prods, key=lambda x: x.get("expiry_date") or "9999-12-31"):
-            name = p.get("name") or p.get("barcode") or "Prodotto"
+            name = p.get("name") or p.get("barcode") or texts["unnamed"]
             qty = p.get("quantity", 1)
             expiry = p.get("expiry_date")
             if expiry:
@@ -204,17 +290,41 @@ async def async_setup_entry(hass, entry):
                     exp_date = datetime.strptime(expiry, "%Y-%m-%d").date()
                     days = (exp_date - today).days
                     if days < 0:
-                        when = f"scaduto da {abs(days)} giorni"
+                        when = (
+                            texts["expired_one"]
+                            if abs(days) == 1
+                            else texts["expired_many"].format(days=abs(days))
+                        )
                     elif days == 0:
-                        when = "scade oggi"
+                        when = texts["today"]
                     else:
-                        when = f"scade tra {days} giorni"
+                        when = (
+                            texts["expiring_one"]
+                            if days == 1
+                            else texts["expiring_many"].format(days=days)
+                        )
                 except Exception:
                     when = expiry
             else:
-                when = "senza data"
-            lines.append(f"- {name} (x{qty}) - {when}")
+                when = texts["no_date"]
+            lines.append(texts["product"].format(name=name, quantity=qty, when=when))
         return lines
+
+    def _build_notification(expired, expiring, texts, limit=None, include_sections=False):
+        lines = []
+        if expired:
+            if include_sections:
+                lines.append(texts["expired"])
+            lines.extend(_format_products(expired, texts))
+        if expiring:
+            if include_sections:
+                lines.append(texts["expiring"])
+            lines.extend(_format_products(expiring, texts))
+        if limit is not None and len(lines) > limit:
+            message = "\n".join(lines[:limit])
+            message += "\n" + texts["more"].format(count=len(lines) - limit)
+            return message
+        return "\n".join(lines)
 
     async def check_and_notify():
         options = entry.options
@@ -228,19 +338,14 @@ async def async_setup_entry(hass, entry):
 
         if persistent_enabled:
             if relevant:
-                lines = []
-                if expired:
-                    lines.append("Scaduti:")
-                    lines.extend(_format_products(expired))
-                if expiring:
-                    lines.append("In scadenza:")
-                    lines.extend(_format_products(expiring))
-
-                message = "\n".join(lines)
+                texts = _texts_for_notification()
+                message = _build_notification(
+                    expired, expiring, texts, include_sections=True
+                )
                 pn_async_create(
                     hass,
                     message,
-                    title="Prodotti in scadenza - Smart Home Pantry",
+                    title=texts["title"],
                     notification_id=PERSISTENT_NOTIFICATION_ID,
                 )
             else:
@@ -261,15 +366,6 @@ async def async_setup_entry(hass, entry):
                     "salto la notifica push (configurala in Opzioni)."
                 )
             else:
-                lines = []
-                if expired:
-                    lines.extend(_format_products(expired))
-                if expiring:
-                    lines.extend(_format_products(expiring))
-                message = "\n".join(lines[:10])
-                if len(lines) > 10:
-                    message += f"\n... e altri {len(lines) - 10}"
-
                 for service_name in services_list:
                     if not hass.services.has_service("notify", service_name):
                         _LOGGER.warning(
@@ -279,11 +375,15 @@ async def async_setup_entry(hass, entry):
                         )
                         continue
                     try:
+                        texts = _texts_for_notification(service_name)
+                        message = _build_notification(
+                            expired, expiring, texts, limit=10
+                        )
                         await hass.services.async_call(
                             "notify",
                             service_name,
                             {
-                                "title": "Prodotti in scadenza",
+                                "title": texts["push_title"],
                                 "message": message,
                                 "data": {"tag": PERSISTENT_NOTIFICATION_ID},
                             },
